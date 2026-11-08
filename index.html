@@ -99,6 +99,52 @@ main{padding-bottom:96px}input,select,textarea{font-size:16px}.sticky{bottom:cal
 .sel{display:flex;align-items:center;gap:10px;background:var(--redbg);border:1px solid var(--red);border-radius:14px;padding:12px 14px;margin-top:6px}.sel .st{flex:1;display:flex;flex-direction:column;gap:2px}.sel small{color:var(--mut)}.sel .pt{color:var(--red);font-size:20px;white-space:nowrap}
 .sticky{background:var(--sf);border:1px solid var(--line);border-radius:16px;padding:10px;box-shadow:0 6px 20px rgba(0,0,0,.14)}.sm{font-size:14px;margin-bottom:8px;line-height:1.35}.sm .pt{color:var(--red);white-space:nowrap}.sticky .b.off{opacity:.5}
 .who.fb{cursor:pointer}.who.fb::after{content:' ⏻';opacity:.6}
+
+/* ===== Giao diện lớn, rõ, đẹp hơn ===== */
+@media screen{
+body{font-size:16.5px;line-height:1.55}
+header{padding:18px 24px}header h1{font-size:24px;letter-spacing:-.2px}header p{font-size:14.5px}
+.who{white-space:nowrap;font-size:15px;font-weight:600;padding:5px 14px}
+.wk select{font-size:17px;padding:9px 12px;border-radius:12px}
+.wb{min-width:46px;min-height:46px;font-size:22px!important;border-radius:12px}
+nav button{font-size:16px;padding:10px 16px}
+h2{font-size:21px;margin:26px 0 12px}
+label{font-size:15px;margin-bottom:6px;font-weight:500}
+input,select,textarea{font-size:17px;padding:12px 14px;min-height:48px;border-width:1.5px;border-radius:12px}
+input:focus,select:focus,textarea:focus{border-color:#f08aa0;outline:none;box-shadow:0 0 0 3px rgba(244,169,184,.35)}
+td input{min-height:0;padding:7px 9px;font-size:16px;border-radius:8px}
+button.b{font-size:17px;padding:13px 22px;border-radius:14px;background:linear-gradient(135deg,#f9bccb,#f29db3);box-shadow:0 4px 12px rgba(242,157,179,.45)}
+button.b:active{transform:translateY(1px)}
+button.g{font-size:16px;padding:10px 16px;border-radius:12px;min-height:44px}
+.card{border-radius:18px;padding:20px;box-shadow:0 8px 24px rgba(110,90,150,.10)}
+.card div[style*="font-size:18px"]{font-size:23px!important;line-height:1.35;margin:6px 0 8px!important}
+.note{font-size:15.5px;padding:12px 14px;border-radius:12px}
+.mut{font-size:15px}
+table{font-size:16px}th{font-size:14.5px}th,td{padding:11px 12px}
+.chip{font-size:16.5px;padding:10px 18px}
+.ri{font-size:17px}
+.sm{font-size:15.5px}
+.sticky .b{font-size:18px}
+#toast{font-size:16.5px}
+.bd{font-size:14px}
+.stp input{min-height:48px}.stp button{min-height:48px;min-width:52px}
+.lg{max-width:440px;margin:24px auto}.lgh{text-align:center;margin-bottom:16px}.lgi{font-size:46px;line-height:1}.lgh h2{margin:10px 0 2px;font-size:24px}
+.ck{display:flex;align-items:center;gap:12px;font-size:16.5px;color:var(--ink);margin:14px 0 0;cursor:pointer;font-weight:400}
+.ck input{width:24px;height:24px;min-height:0;padding:0;accent-color:#e9798f;flex:none;margin:0}
+}
+@media screen and (max-width:640px){
+body{font-size:17px}
+header{padding:14px 16px}header h1{font-size:23px}header p{font-size:14px}
+.wk{width:100%;gap:8px}.who{order:-1;margin-right:100%;flex:0 0 auto}
+.wk select{flex:1;min-width:0}
+main{padding:14px 14px 160px}
+.card{padding:16px}
+nav button{font-size:12.5px;padding:6px 2px}nav button .ic{font-size:26px}
+.sticky{bottom:calc(88px + env(safe-area-inset-bottom,0px))}
+td,th{font-size:16px}
+}
+@media screen{.sticky{position:static}.sticky.on{position:sticky}}
+@media screen{.stp input[type=text]{text-align:left}.stp button{font-size:24px!important;line-height:1}.ck input:focus{box-shadow:none}}
 </style>
 </head>
 <body>
@@ -125,7 +171,7 @@ function fbSnap(x){return{id:x.id,exists:x.exists,data:function(){return fbDec(x
 function fbAdapter(f){return{collection:function(n){var c=f.collection(n);return{add:function(d){return c.add(fbEnc(d))},onSnapshot:function(a,b){return c.onSnapshot(function(s){a({docs:s.docs.map(fbSnap)})},b)}}},doc:function(p){var r=f.doc(p);return{set:function(d){return r.set(fbEnc(d))},delete:function(){return r.delete()},onSnapshot:function(a,b){return r.onSnapshot(function(x){a(fbSnap(x))},b)}}}}}
 function fbMsg(t){var e=document.getElementById('le');if(e)e.textContent=t}
 function fbLogin(){var u=document.getElementById('lu').value.trim().toLowerCase(),p=document.getElementById('lp').value;if(!u||!p){fbMsg('Hãy nhập tài khoản và mật khẩu.');return}if(u.indexOf('@')<0&&EMAIL_DOMAIN)u+='@'+EMAIL_DOMAIN;fbMsg('Đang đăng nhập…');firebase.auth().signInWithEmailAndPassword(u,p).catch(function(e){var c=(e&&e.code)||'';fbMsg(c=='auth/network-request-failed'?'Mất kết nối mạng, hãy thử lại.':c=='auth/too-many-requests'?'Thử sai nhiều lần, hãy đợi vài phút rồi thử lại.':'Sai tài khoản hoặc mật khẩu.')})}
-function fbShowLogin(){document.getElementById('nav').innerHTML='';document.getElementById('more').innerHTML='';document.getElementById('who').textContent='Chưa đăng nhập';document.getElementById('v').innerHTML='<div class="card" style="max-width:380px;margin:32px auto"><h2 style="margin-top:0">Đăng nhập</h2><label for="lu">Tài khoản</label><input id="lu" type="text" autocomplete="username" autocapitalize="none" autocorrect="off" placeholder="ví dụ: lop6.1"><label for="lp" style="margin-top:10px">Mật khẩu</label><input id="lp" type="password" autocomplete="current-password" onkeydown="if(event.key===\'Enter\')fbLogin()"><div id="le" class="note" style="color:var(--red);min-height:20px"></div><button class="b" style="width:100%;padding:12px;margin-top:8px" onclick="fbLogin()">Đăng nhập</button><p class="mut" style="margin-bottom:0">Tài khoản do Tổng phụ trách cấp. Đăng nhập một lần, máy sẽ nhớ.</p></div>'}
+function fbShowLogin(){document.getElementById('nav').innerHTML='';document.getElementById('more').innerHTML='';document.getElementById('who').textContent='Chưa đăng nhập';document.getElementById('v').innerHTML='<div class="card lg"><div class="lgh"><div class="lgi">🏫</div><h2>Đăng nhập</h2><div class="mut">Sổ thi đua tuần · THCS An Quang</div></div><label for="lu">Tài khoản</label><input id="lu" type="text" autocomplete="username" autocapitalize="none" autocorrect="off" placeholder="ví dụ: lop6.1"><label for="lp" style="margin-top:14px">Mật khẩu</label><input id="lp" type="password" autocomplete="current-password" onkeydown="if(event.key===\'Enter\')fbLogin()"><label class="ck" for="sp"><input id="sp" type="checkbox" onchange="document.getElementById(\'lp\').type=this.checked?\'text\':\'password\'"> Hiện mật khẩu</label><div id="le" class="note" style="color:var(--red);min-height:24px;margin-top:12px;background:none;border:0;padding:0"></div><button class="b" style="width:100%;margin-top:8px" onclick="fbLogin()">Đăng nhập</button><p class="mut" style="margin:14px 0 0;text-align:center">Tài khoản do Tổng phụ trách cấp.<br>Đăng nhập một lần, máy sẽ nhớ.</p></div>'}
 function fbInit(){if(!FB_ON)return Promise.resolve(null);return new Promise(function(res,rej){firebase.initializeApp(FB_CFG);var a=firebase.auth(),f=firebase.firestore(),first=true;try{f.settings({experimentalAutoDetectLongPolling:true,merge:true})}catch(e){}
 a.onAuthStateChanged(function(u){if(!first){location.reload();return}first=false;if(!u){fbShowLogin();res('login');return}FBU=u;var em=String(u.email||'').toLowerCase(),w=document.getElementById('who');if(w){w.classList.add('fb');w.title='Bấm để đăng xuất ('+em+')';w.onclick=function(){if(confirm('Đăng xuất khỏi tài khoản '+em+'?'))a.signOut()}}
 res({DB:fbAdapter(f),US:{id:function(){return Promise.resolve(em)},canEdit:function(){return Promise.resolve(em==String(ADMIN_EMAIL).toLowerCase())},search:function(q){q=String(q||'').trim().toLowerCase();if(q.length<2)return Promise.resolve([]);if(q.indexOf('@')<0&&EMAIL_DOMAIN)q+='@'+EMAIL_DOMAIN;return Promise.resolve([{id:q,name:q}])},profiles:function(ids){var m={};ids.forEach(function(i){m[i]={name:i}});return Promise.resolve(m)}}})},rej)})}
@@ -363,7 +409,7 @@ function toast(m,a,f){var e=document.getElementById('toast');e.innerHTML=esc(m)+
 function pickG(g){RG=g;ruleUI()}
 function pickR(i){document.getElementById('r').value=i;RP=true;ED=false;var s=document.getElementById('rs');if(s)s.value='';nmSync();ruleUI()}
 function chgR(){var R=db.rules[+val('r')];if(R)RG=R[2];ED=true;ruleUI()}
-function sumUI(){var m=document.getElementById('sm');if(!m)return;var R=db.rules[+val('r')],q=num(val('q'),1),b=document.querySelector('.sticky .b');if(!RP||!R){m.innerHTML='<span class="mut">Chưa chọn lỗi vi phạm</span>';if(b)b.classList.add('off');return}if(b)b.classList.remove('off');var n=NM.length;m.innerHTML='<b>Lớp '+esc(val('c'))+'</b> · '+esc(val('d').replace('Thứ ','T'))+' · '+esc(R[0])+' <b class="pt">−'+R[1]+(q>1?' ×'+q:'')+(n>1?' × '+n+' HS':'')+'</b>'}
+function sumUI(){var m=document.getElementById('sm');if(!m)return;var R=db.rules[+val('r')],q=num(val('q'),1),b=document.querySelector('.sticky .b');var st=document.querySelector('.sticky');if(st)st.classList.toggle('on',!!(RP&&R));if(!RP||!R){m.innerHTML='<span class="mut">Chưa chọn lỗi vi phạm</span>';if(b)b.classList.add('off');return}if(b)b.classList.remove('off');var n=NM.length;m.innerHTML='<b>Lớp '+esc(val('c'))+'</b> · '+esc(val('d').replace('Thứ ','T'))+' · '+esc(R[0])+' <b class="pt">−'+R[1]+(q>1?' ×'+q:'')+(n>1?' × '+n+' HS':'')+'</b>'}
 function pickD(i){document.getElementById('d').selectedIndex=i;dayUI()}
 function stepQ(n){var q=document.getElementById('q');q.value=Math.max(1,num(q.value,1)+n);sumUI()}
 function dayUI(){sumUI();var e=document.getElementById('dc'),d=document.getElementById('d');if(!e||!d)return;e.innerHTML=DAYS.map(function(x,i){return'<button type="button" class="chip'+(d.selectedIndex==i?' on':'')+'" onclick="pickD('+i+')">'+x.replace('Thứ ','T')+'</button>'}).join('')}
