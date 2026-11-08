@@ -147,6 +147,48 @@ td,th{font-size:16px}
 @media screen{.stp input[type=text]{text-align:left}.stp button{font-size:24px!important;line-height:1}.ck input:focus{box-shadow:none}}
 .nmbox{grid-column:1/-1}.nmrow{display:flex;gap:8px;align-items:center}.nmrow input{flex:1;min-width:0}.nmrow .nmadd{flex:none;padding:8px 14px;font-size:14px;white-space:nowrap}.nmchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.nmc{display:inline-flex;align-items:center;gap:6px;background:#f4a9b8;color:#3a1f27;border-radius:999px;padding:4px 6px 4px 12px;font-size:14px;line-height:1.3}.nmc button{border:0;background:rgba(0,0,0,.14);color:inherit;border-radius:50%;width:20px;height:20px;line-height:1;cursor:pointer;padding:0;font-size:13px}
 .nmbox{position:relative}.nsug{position:absolute;left:0;right:0;z-index:30;max-height:280px;overflow:auto;background:var(--sf);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(30,40,70,.18);margin-top:4px;padding:4px}.nsi{display:flex;gap:10px;align-items:baseline;padding:9px 10px;border-radius:8px;cursor:pointer;font-size:15px}.nsi:hover,.nsi.hl{background:rgba(244,169,184,.28)}.nsi.dis{opacity:.45;cursor:not-allowed}.nsi b{color:var(--red)}.nsi i{font-size:12px;color:var(--mut)}.nss{flex:none;min-width:26px;text-align:right;font-size:12px;color:var(--mut)}.nsh{padding:10px;font-size:14px;color:var(--mut)}
+
+/* ===== Điện thoại: chữ lớn tối thiểu 24pt (đổi --mfs nếu muốn nhỏ hơn) ===== */
+@media screen and (max-width:640px){
+:root{--mfs:32px}
+html,body{overflow-x:hidden;max-width:100%}
+body{font-size:var(--mfs);line-height:1.4}
+:root:root:root body *{font-size:var(--mfs)!important}
+:root:root:root header h1,:root:root:root h2,:root:root:root .lgh h2{font-size:calc(var(--mfs)*1.15)!important;line-height:1.25}
+:root:root:root .stp button{font-size:calc(var(--mfs)*1.2)!important}
+header{padding:16px 16px}
+.wk{display:grid!important;grid-template-columns:auto 1fr auto;gap:10px;width:100%;align-items:center}
+.who{grid-column:1/-1;justify-self:start;order:-1;margin:0!important}
+.wb{min-width:64px;min-height:64px}
+.wk select{min-width:0;width:100%}
+#wr{margin-top:0}
+main,.card,.row>*{min-width:0}
+main{padding:14px 12px 220px!important}
+.card{padding:14px}
+label{margin-bottom:6px}
+input,select,textarea{min-height:68px;padding:10px 14px;max-width:100%}
+button.b{padding:16px 22px}
+button.g{min-height:64px;padding:10px 18px}
+.stp button{min-height:68px;min-width:76px}
+.chip{padding:12px 20px}
+#dc{gap:8px;grid-template-columns:repeat(3,1fr)!important}#dc .chip{padding:16px 0}
+.ri{padding:18px!important}
+.note{padding:14px}
+th,td{padding:12px 8px}
+.wt tr,.ht tr{grid-template-columns:1fr!important}
+.wt td input{width:150px}
+.wt td::before,.ht td::before,.wt td:first-child::before,.ht td:first-child::before{font-size:var(--mfs)!important}
+nav{overflow-x:auto;justify-content:flex-start!important;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:0 0 auto!important;padding:10px 20px!important;white-space:nowrap}nav button .ic{display:none!important}
+header p{display:none}
+.sticky.on{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+.nmrow{flex-wrap:wrap}.nmrow input{flex:1 1 100%}.nmrow .nmadd{flex:1 1 100%}
+.nmc{padding:8px 8px 8px 16px;gap:10px}.nmc button{width:44px;height:44px}
+.nsug{max-height:50vh}.nsi{padding:16px 12px}.nss{min-width:44px}
+#toast{bottom:110px;max-width:92vw;white-space:normal;text-align:center}
+#more{bottom:100px}#more button{padding:16px 20px}
+}
 </style>
 </head>
 <body>
