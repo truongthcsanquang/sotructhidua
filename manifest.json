@@ -1,6 +1,6 @@
 {
-  "name": "Sổ thi đua tuần – THCS An Quang",
-  "short_name": "Sổ thi đua",
+  "name": "Sổ trực thi đua – THCS An Quang",
+  "short_name": "Sổ trực thi đua",
   "start_url": "./",
   "scope": "./",
   "display": "fullscreen",
