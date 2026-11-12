@@ -330,6 +330,45 @@ header{align-items:center}
 }
 
 @media screen and (min-width:641px){main .card svg[viewBox]{max-height:340px}}
+
+/* ===== Bảng tuần: danh sách theo tên lớp, bảng nhập điểm không cần kéo ngang ===== */
+.wgrid{display:grid;grid-template-columns:1fr;gap:0}
+.wgrid section{min-width:0}
+.wgrid .tw{overflow:visible!important}
+@media screen and (min-width:1101px){
+.wt{width:100%;border-collapse:collapse;table-layout:auto}
+.wt th,.wt td{padding:7px 8px;text-align:center;white-space:nowrap}
+.wt th:first-child,.wt td:first-child{text-align:left}
+.wt td input[type=number]{width:80px;text-align:center}
+.wt td input.ly{width:100%!important;min-width:170px;text-align:left}
+.wt td:last-child,.wt th:last-child{width:99%;white-space:normal}
+}
+@media screen and (max-width:1100px){
+.wt,.wt tbody{display:block;width:100%}
+.wt tr:first-child{display:none}
+.wt tr{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:8px 6px;padding:12px 0;border-bottom:1px solid var(--line);align-items:end}
+.wt tr:last-child{border-bottom:0}
+.wt td{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:3px;border:0;padding:0;text-align:left;min-width:0;font-size:16px}
+.wt td::before{display:block;color:var(--mut);font-size:12px;font-weight:600;margin:0;line-height:1.2;white-space:nowrap}
+.wt td input{width:100%!important;max-width:100%;text-align:center}
+.wt td input.ly{text-align:left}
+.wt td:nth-child(1){grid-column:span 3;order:1;font-size:19px;align-self:center}
+.wt td:nth-child(1)::before{display:none}
+.wt td:nth-child(8){grid-column:span 3;order:2;font-size:19px}
+.wt td:nth-child(9){grid-column:span 3;order:3}
+.wt td:nth-child(10){grid-column:span 3;order:4}
+.wt td:nth-child(2){order:5}.wt td:nth-child(5){order:6}.wt td:nth-child(6){order:7}.wt td:nth-child(7){order:8}
+.wt td:nth-child(3){order:9}.wt td:nth-child(4){order:10}
+.wt td:nth-child(2),.wt td:nth-child(5),.wt td:nth-child(6),.wt td:nth-child(7){grid-column:span 3}
+.wt td:nth-child(3),.wt td:nth-child(4){grid-column:span 6}
+.wt td:nth-child(11){grid-column:1/-1;order:11}
+.wt td:nth-child(2)::before{content:'Học tập'}.wt td:nth-child(3)::before{content:'Trừ nề nếp (từ lỗi đã ghi)'}.wt td:nth-child(4)::before{content:'Cộng nề nếp'}.wt td:nth-child(5)::before{content:'Nề nếp'}
+.wt td:nth-child(6)::before{content:'Cộng'}.wt td:nth-child(7)::before{content:'Trừ'}.wt td:nth-child(8)::before{content:'Tổng'}.wt td:nth-child(9)::before{content:'Hạng'}.wt td:nth-child(10)::before{content:'Xếp loại'}.wt td:nth-child(11)::before{content:'Ghi chú'}
+.wt td:nth-child(8) b{color:#1a6ff0}
+}
+@media screen and (min-width:641px) and (max-width:1100px){
+.wt td:nth-child(2),.wt td:nth-child(5),.wt td:nth-child(6),.wt td:nth-child(7){grid-column:span 3}
+}
 </style>
 </head>
 <body>
@@ -531,7 +570,7 @@ function setRule(i,v){db.rules[i][1]=num(v,0);save()}
 function setThr(i,v){db.thr[i]=num(v,0);save();render()}
 function copyWeek(){var w=db.wk,out='Lớp\tHọc tập\tTrừ nề nếp\tNề nếp\tCộng\tTrừ\tTổng\tHạng\tXếp loại\n';BL.forEach(function(b){b[1].forEach(function(c){var x=calc(w,c);out+=[c,x.hoc,x.ded,x.nn,x.cong,x.tru,x.tot,rankOf(b[1],c,w),grade(x.tot)].join('\t')+'\n'})});try{navigator.clipboard.writeText(out).then(function(){alert('Đã sao chép. Dán vào Excel hoặc Word.')},function(){alert('Trình duyệt không cho sao chép. Hãy dùng nút In.')})}catch(e){alert('Trình duyệt không cho sao chép. Hãy dùng nút In.')}}
 
-function weekTable(w){return'<div class="grid">'+BL.map(function(b){var rows=b[1].map(function(c){var x=calc(w,c),r=rankOf(b[1],c,w);return'<tr><td><b>'+c+'</b></td><td><input type="number" value="'+x.hoc+'" min="0" step="0.5"'+(ADM&&!db.lock[w]?'':' disabled')+' aria-label="Học tập lớp '+c+'" onchange="setW(\''+c+'\',\'hoc\',this.value)"></td><td data-f="ded" data-c="'+c+'" class="'+(x.ded?'neg':'')+'">'+(x.ded?'−'+x.ded:'0')+'</td><td><input type="number" step="0.5" value="'+x.nnc+'"'+(ADM&&!db.lock[w]?'':' disabled')+' aria-label="Cộng nề nếp lớp '+c+'" onchange="setW(\''+c+'\',\'nn\',this.value)"></td><td data-f="nn" data-c="'+c+'">'+x.nn+'</td><td><input type="number" value="'+x.cong+'"'+(ADM&&!db.lock[w]?'':' disabled')+' aria-label="Điểm cộng lớp '+c+'" onchange="setW(\''+c+'\',\'cong\',this.value)"></td><td><input type="number" min="0" value="'+x.tru+'"'+(ADM&&!db.lock[w]?'':' disabled')+' aria-label="Điểm trừ lớp '+c+'" onchange="setW(\''+c+'\',\'tru\',this.value)"></td><td data-f="tot" data-c="'+c+'"><b>'+x.tot+'</b></td><td data-f="rk" data-c="'+c+'">'+(r==1?'<span class="top">1</span>':r)+'</td><td data-f="gr" data-c="'+c+'">'+grade(x.tot)+'</td><td><input type="text" class="ly" value="'+esc(x.ly)+'"'+(ADM&&!db.lock[w]?'':' disabled')+' placeholder="Lý do" aria-label="Ghi chú lớp '+c+'" onchange="setW(\''+c+'\',\'ly\',this.value)"></td></tr>'}).join('');return'<section><h2>'+b[0]+'</h2><div class="card tw"><table class="wt"><tr><th>Lớp</th><th>Học tập</th><th>Trừ nề nếp</th><th>Cộng nề nếp</th><th>Nề nếp</th><th>Cộng</th><th>Trừ</th><th>Tổng</th><th>Hạng</th><th>Xếp loại</th><th>Ghi chú</th></tr>'+rows+'</table></div></section>'}).join('')+'</div>'}
+function weekTable(w){return'<div class="wgrid">'+BL.map(function(b){var rows=b[1].map(function(c){var x=calc(w,c),r=rankOf(b[1],c,w);return'<tr><td><b>'+c+'</b></td><td><input type="number" value="'+x.hoc+'" min="0" step="0.5"'+(ADM&&!db.lock[w]?'':' disabled')+' aria-label="Học tập lớp '+c+'" onchange="setW(\''+c+'\',\'hoc\',this.value)"></td><td data-f="ded" data-c="'+c+'" class="'+(x.ded?'neg':'')+'">'+(x.ded?'−'+x.ded:'0')+'</td><td><input type="number" step="0.5" value="'+x.nnc+'"'+(ADM&&!db.lock[w]?'':' disabled')+' aria-label="Cộng nề nếp lớp '+c+'" onchange="setW(\''+c+'\',\'nn\',this.value)"></td><td data-f="nn" data-c="'+c+'">'+x.nn+'</td><td><input type="number" value="'+x.cong+'"'+(ADM&&!db.lock[w]?'':' disabled')+' aria-label="Điểm cộng lớp '+c+'" onchange="setW(\''+c+'\',\'cong\',this.value)"></td><td><input type="number" min="0" value="'+x.tru+'"'+(ADM&&!db.lock[w]?'':' disabled')+' aria-label="Điểm trừ lớp '+c+'" onchange="setW(\''+c+'\',\'tru\',this.value)"></td><td data-f="tot" data-c="'+c+'"><b>'+x.tot+'</b></td><td data-f="rk" data-c="'+c+'">'+(r==1?'<span class="top">1</span>':r)+'</td><td data-f="gr" data-c="'+c+'">'+grade(x.tot)+'</td><td><input type="text" class="ly" value="'+esc(x.ly)+'"'+(ADM&&!db.lock[w]?'':' disabled')+' placeholder="Lý do" aria-label="Ghi chú lớp '+c+'" onchange="setW(\''+c+'\',\'ly\',this.value)"></td></tr>'}).join('');return'<section><h2>'+b[0]+'</h2><div class="card tw"><table class="wt"><tr><th>Lớp</th><th>Học tập</th><th>Trừ nề nếp</th><th>Cộng nề nếp</th><th>Nề nếp</th><th>Cộng</th><th>Trừ</th><th>Tổng</th><th>Hạng</th><th>Xếp loại</th><th>Ghi chú</th></tr>'+rows+'</table></div></section>'}).join('')+'</div>'}
 function tgt(c,w){var i=+c.charAt(2),j=w<db.hk2?(i%4)+1:(i==1?4:i-1);return c.charAt(0)+'.'+j}
 var SEQ=[['8.1','8.2','8.3','8.4','6.1','6.2','6.3','6.4'],['9.1','9.2','9.3','9.4','7.1','7.2','7.3','7.4']];
 function duty(w){return{am:SEQ[0][(w-1)%8],pm:SEQ[1][(w-1)%8]}}
@@ -707,7 +746,7 @@ var rg=RG||(fv.length?'fav':gs[0]),ch=function(k,t){return'<button type="button"
 e.innerHTML='<div class="chips sc">'+(fv.length?ch('fav','⭐ Hay dùng'):'')+gs.map(function(g){return ch(g,(GI[g]||'•')+' '+g)}).join('')+'</div><div class="rl">'+lst.map(function(p){return'<button type="button" class="ri'+(RP&&p[1]==cur?' on':'')+'" onclick="pickR('+p[1]+')"><span>'+esc(p[0][0])+'</span><b>−'+p[0][1]+'</b></button>'}).join('')+'</div>'+(q&&!lst.length?'<div class="mut" style="margin-top:8px">Không tìm thấy lỗi phù hợp</div>':'');sumUI()}
 function gcls(g){return'g'+'abcd'.charAt(['Tốt','Khá','Đạt','Chưa đạt'].indexOf(g))}
 function pickB(b){WB=b;render()}
-function rankCards(w){var bl=WB=='all'?BL:BL.filter(function(b){return b[0]==WB}),mx=Math.max.apply(null,CL.map(function(c){return calc(w,c).tot}).concat([1]));return'<div class="chips">'+[['all','Tất cả']].concat(BL.map(function(b){return[b[0],b[0]]})).map(function(p){return'<button type="button" class="chip'+(WB==p[0]?' on':'')+'" onclick="pickB(\''+p[0]+'\')">'+p[1]+'</button>'}).join('')+'</div>'+bl.map(function(b){var L=b[1].slice().sort(function(x,y){return calc(w,y).tot-calc(w,x).tot});return'<h2>'+b[0]+'</h2><div class="rk">'+L.map(function(c){var x=calc(w,c),r=rankOf(b[1],c,w),g=grade(x.tot);return'<div class="rc"><span class="md">'+(r==1?'🥇':r==2?'🥈':r==3?'🥉':r)+'</span><b>'+c+'</b><div class="bar"><i style="width:'+Math.max(0,x.tot/mx*100)+'%"></i></div><span class="sc">'+x.tot+'</span><span class="bd '+gcls(g)+'">'+g+'</span></div>'}).join('')+'</div>'}).join('')}
+function rankCards(w){var bl=WB=='all'?BL:BL.filter(function(b){return b[0]==WB}),mx=Math.max.apply(null,CL.map(function(c){return calc(w,c).tot}).concat([1]));return'<div class="chips">'+[['all','Tất cả']].concat(BL.map(function(b){return[b[0],b[0]]})).map(function(p){return'<button type="button" class="chip'+(WB==p[0]?' on':'')+'" onclick="pickB(\''+p[0]+'\')">'+p[1]+'</button>'}).join('')+'</div>'+bl.map(function(b){var L=b[1];return'<h2>'+b[0]+'</h2><div class="rk">'+L.map(function(c){var x=calc(w,c),r=rankOf(b[1],c,w),g=grade(x.tot);return'<div class="rc"><span class="md">'+(r==1?'🥇':r==2?'🥈':r==3?'🥉':r)+'</span><b>'+c+'</b><div class="bar"><i style="width:'+Math.max(0,x.tot/mx*100)+'%"></i></div><span class="sc">'+x.tot+'</span><span class="bd '+gcls(g)+'">'+g+'</span></div>'}).join('')+'</div>'}).join('')}
 function bbSum(){var PP=PER!='w',ws=PP?pset().filter(hasData):[db.wk];return'<div class="card"><b>'+(PP?plbl():'Tuần '+db.wk)+'</b><div class="rk" style="margin-top:8px">'+CL.map(function(c){var x=agg(ws,c),r=1+blkOf(c).filter(function(y){return agg(ws,y).tot>x.tot}).length,g=grade(x.tot);return'<div class="rc"><span class="md">'+(r==1?'🥇':r)+'</span><b>'+c+'</b><span class="mut">trừ '+x.ded+'</span><span class="sc">'+x.tot+'</span><span class="bd '+gcls(g)+'">'+g+'</span></div>'}).join('')+'</div><p class="mut" style="margin-bottom:0">Bản đầy đủ khổ A4: dùng nút Xuất file Word hoặc In hoặc lưu PDF.</p></div>'}
 
 var NM=[],GD=false;db.hist=[];
